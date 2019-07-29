@@ -1,17 +1,17 @@
 package qrcode
 
 import (
+	"bytes"
 	"github.com/golang/freetype"
 	"github.com/golang/freetype/truetype"
-	"image"
-	"unicode/utf8"
-	"github.com/nfnt/resize"
-	"image/png"
 	"github.com/lucasb-eyer/go-colorful"
+	"github.com/nfnt/resize"
 	"github.com/skip2/go-qrcode"
+	"image"
 	"image/color"
 	"image/draw"
-	"bytes"
+	"image/png"
+	"unicode/utf8"
 )
 
 type QrCode struct {
@@ -141,6 +141,7 @@ func (self *QrCode)GenerateQRCodeWithLogo(url string)(imageData []byte,err error
 		return
 	}
 
+
 	offsetX := (self.Size-self.LogoImage.Bounds().Dx())/2
 
 	newImg := image.NewRGBA(qrCodeImage.Bounds())
@@ -184,11 +185,12 @@ func (self *QrCode)readFontFromByte(fontByte []byte)(err error){
 }
 
 func (self *QrCode)readLogoImageFromByte(logoByte []byte)(err error){
+
 	logoImage,_,err:=image.Decode(bytes.NewReader(logoByte))
 	if err!=nil{
 		return
 	}
-	self.LogoImage=resize.Resize(uint(self.Size/4.0),uint(self.Size/4.0),logoImage,resize.Lanczos3)
+	self.LogoImage=resize.Resize(300,300,logoImage,resize.Lanczos3)
 	return
 }
 

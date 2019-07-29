@@ -1,9 +1,9 @@
 package qrcode
 
 import (
-	"testing"
 	"io/ioutil"
 	"os"
+	"testing"
 )
 
 var qrCode *QrCode
@@ -15,14 +15,15 @@ func init(){
 		return
 	}
 
+
 	qrCode,err=Init(fontData,logoData,0,0,0,"","")
 	if err!=nil{
+		panic(err)
 	}
 }
 
 func TestQrCode_GenerateQRCode(t *testing.T) {
-
-	pngData,err:=qrCode.GenerateQRCode("test")
+	pngData,err:=qrCode.GenerateQRCode("https://demo.u1200.com/af83b54a95b95ade250e334704ffddad7cb06fc9")
 	if err!=nil{
 		t.Error(err)
 	}
@@ -35,7 +36,7 @@ func TestQrCode_GenerateQRCode(t *testing.T) {
 }
 
 func TestQrCode_GenerateQRCodeWithLogo(t *testing.T) {
-	pngData,err:=qrCode.GenerateQRCodeWithLogo("test")
+	pngData,err:=qrCode.GenerateQRCodeWithLogo("https://demo.u1200.com/af83b54a95b95ade250e334704ffddad7cb06fc9")
 	if err!=nil{
 		t.Error(err)
 	}
