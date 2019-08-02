@@ -83,6 +83,45 @@ func Init(fontByte,logoByte []byte, size int,fontSize float64,fontDPI float64 ,f
 	return
 }
 
+
+func (self *QrCode)GenerateQrCodeWithAlphaLogoArea(url string)(imgData []byte,err error){
+
+	qrCodeData,err:=self.GenerateQRCode(url)
+	if err!=nil{
+		return
+	}
+
+	qrCodeImage,_,err:=image.Decode(bytes.NewReader(qrCodeData))
+	if err!=nil{
+		return
+	}
+
+
+	offsetX := (self.Size-200)/2
+
+	newImg := image.NewRGBA(qrCodeImage.Bounds())
+
+	//draw.Draw(newImg,newImg.Bounds(),&image.Uniform{self.BackColor}, image.Point{}, draw.Src)
+	draw.Draw(newImg,qrCodeImage.Bounds(),qrCodeImage,image.Point{-1,-1},draw.Src)
+
+	blank := image.NewRGBA(image.Rect(0,0,200,200))
+
+	draw.Draw(newImg, newImg.Bounds(), blank, image.Point{-offsetX,-offsetX}, draw.Src)
+
+
+	buffer:=new(bytes.Buffer)
+	err=png.Encode(buffer,newImg)
+	if err!=nil{
+		return
+	}
+	imgData=buffer.Bytes()
+	return
+
+
+
+
+}
+
 func (self *QrCode)GenerateQRCodeWithLogoAndTitle(url,title string)(imgData []byte,err error)  {
 
 	qrCodeData,err:=self.GenerateQRCodeWithLogo(url)

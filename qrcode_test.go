@@ -61,3 +61,16 @@ func TestQrCode_GenerateQRCodeWithLogoAndTitle(t *testing.T) {
 	}
 	file.Write(pngData)
 }
+
+func TestQrCode_GenerateQrCodeWithAlphaLogoArea(t *testing.T) {
+	pngData,err:=qrCode.GenerateQrCodeWithAlphaLogoArea("test")
+	if err!=nil{
+		t.Error(err)
+	}
+
+	file,err:=os.Create("qrcodeWithAlpha.png")
+	if err!=nil{
+		t.Error(err)
+	}
+	file.Write(pngData)
+}
